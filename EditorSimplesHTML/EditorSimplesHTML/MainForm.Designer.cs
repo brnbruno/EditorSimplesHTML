@@ -48,7 +48,6 @@ namespace EditorSimplesHTML
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.richTextBox1 = new System.Windows.Forms.RichTextBox();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
-			this.richTextBox2 = new System.Windows.Forms.RichTextBox();
 			this.webBrowser1 = new System.Windows.Forms.WebBrowser();
 			this.fontDialog1 = new System.Windows.Forms.FontDialog();
 			this.button1 = new System.Windows.Forms.Button();
@@ -59,7 +58,6 @@ namespace EditorSimplesHTML
 			this.splitContainer1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
-			this.tabPage2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// menuStrip1
@@ -178,7 +176,6 @@ namespace EditorSimplesHTML
 			// 
 			// tabPage2
 			// 
-			this.tabPage2.Controls.Add(this.richTextBox2);
 			this.tabPage2.Location = new System.Drawing.Point(4, 22);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -186,15 +183,6 @@ namespace EditorSimplesHTML
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "tabPage2";
 			this.tabPage2.UseVisualStyleBackColor = true;
-			// 
-			// richTextBox2
-			// 
-			this.richTextBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.richTextBox2.Location = new System.Drawing.Point(3, 3);
-			this.richTextBox2.Name = "richTextBox2";
-			this.richTextBox2.Size = new System.Drawing.Size(131, 192);
-			this.richTextBox2.TabIndex = 0;
-			this.richTextBox2.Text = "";
 			// 
 			// webBrowser1
 			// 
@@ -237,17 +225,15 @@ namespace EditorSimplesHTML
 			this.splitContainer1.ResumeLayout(false);
 			this.tabControl1.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
-			this.tabPage2.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.TabPage tabPage2;
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.ToolStripButton toolStripButton4;
 		private System.Windows.Forms.FontDialog fontDialog1;
-		private System.Windows.Forms.RichTextBox richTextBox2;
 		private System.Windows.Forms.ToolStripButton toolStripButton3;
 		private System.Windows.Forms.RichTextBox richTextBox1;
-		private System.Windows.Forms.TabPage tabPage2;
 		private System.Windows.Forms.TabPage tabPage1;
 		private System.Windows.Forms.TabControl tabControl1;
 		private System.Windows.Forms.WebBrowser webBrowser1;

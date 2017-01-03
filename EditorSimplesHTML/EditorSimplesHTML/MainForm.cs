@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace EditorSimplesHTML
@@ -42,17 +43,14 @@ namespace EditorSimplesHTML
 		
 		void RichTextBox1KeyUp(object sender, KeyEventArgs e)
 		{
-			webBrowser1.DocumentText = richTextBox1.Text;
-			if(e.KeyValue == 190){
-				Class1.AddColouredText(richTextBox1.Text,richTextBox1);
-				
-			}			
+			
 			
 		}
-		
+	
 		void MainFormLoad(object sender, EventArgs e)
 		{
 			
+        
 		}
 		
 		void ToolStripButton3Click(object sender, EventArgs e)
@@ -101,15 +99,12 @@ namespace EditorSimplesHTML
      		// Load the contents of the file into the RichTextBox.
      		richTextBox1.LoadFile(openFile1.FileName,RichTextBoxStreamType.PlainText);
      		webBrowser1.DocumentText = richTextBox1.Text;
-     		Class1.AddColouredText(richTextBox1.Text,richTextBox1);
+     		
    			}
 		}
+	
+			
 		
-		void RichTextBox1TextChanged(object sender, EventArgs e)
-		{
-			
-			
-		}
 		
 		void Button1Click(object sender, EventArgs e)
 		{
@@ -118,9 +113,97 @@ namespace EditorSimplesHTML
 		
 		void RichTextBox1KeyPress(object sender, KeyPressEventArgs e)
 		{
-			//if (char.IsWhiteSpace(e.KeyChar)) {
+			webBrowser1.DocumentText = richTextBox1.Text;
 			
+		}
+		public Regex Brackets = new Regex("<|>");
+		
+		
+		void RichTextBox1TextChanged(object sender, EventArgs e)
+		{
+		  
+			int SelectionPostion = richTextBox1.SelectionStart;
+			richTextBox1.SelectAll();
+            richTextBox1.SelectionColor = Color.Black;
+			 richTextBox1.SelectionStart = SelectionPostion;
+			//Estrutura
+			string Estrutura = @"(<html|</html>|<head|</head>|<body|</body>|<div|</div>|<span|</span>)";
+            MatchCollection EstruturaMatches = Regex.Matches(richTextBox1.Text, Estrutura);
 			
+            // getting types/classes from the text 
+            string types = @"(<p|</p>|<h1|</h1>|<h2|</h2>|<h3|</h3>|<h4|</h4>|<h5|</h5>|<h6|</h6>|strong|/strong|em|/em|abbr|/abbr|acronym|/acronym|addres|/addres|bdo|/bdo|blockquote|/blockquote|cite|/cite|q|/q|code|/code|ins|/ins|del|/del|dnf|/dnf|kbd|/kbd|pre|/pre|samp|/samp|var|/var|br|/br)";
+            MatchCollection typeMatches = Regex.Matches(richTextBox1.Text, types);
+
+            // getting comments (inline or multiline)
+            string comments = @"(\<\!\-\-.+?\-\-\>)";   
+            MatchCollection commentMatches = Regex.Matches(richTextBox1.Text, comments, RegexOptions.Multiline);
+
+            // getting strings
+            string strings = "\".+?\"";
+            MatchCollection stringMatches = Regex.Matches(richTextBox1.Text, strings);
+
+            // saving the original caret position + forecolor
+            int originalIndex = richTextBox1.SelectionStart;
+            int originalLength = richTextBox1.SelectionLength;
+            Color originalColor = Color.Black;
+
+            // MANDATORY - focuses a label before highlighting (avoids blinking)
+            //titleLabel.Focus();
+
+            // removes any previous highlighting (so modified words won't remain highlighted)
+            richTextBox1.SelectionStart = 0;
+            richTextBox1.SelectionLength = richTextBox1.Text.Length;
+            richTextBox1.SelectionColor = originalColor;
+
+            // scanning...
+            foreach (Match m in EstruturaMatches)
+            {
+                richTextBox1.SelectionStart = m.Index;
+                richTextBox1.SelectionLength = m.Length;
+                richTextBox1.SelectionColor = Color.Blue;
+            }
+
+            foreach (Match m in typeMatches)
+            {
+                richTextBox1.SelectionStart = m.Index;
+                richTextBox1.SelectionLength = m.Length;
+                richTextBox1.SelectionColor = Color.DarkCyan;
+            }
+
+            foreach (Match m in commentMatches)
+            {
+                richTextBox1.SelectionStart = m.Index;
+                richTextBox1.SelectionLength = m.Length;
+                richTextBox1.SelectionColor = Color.Green;
+            }
+
+            foreach (Match m in stringMatches)
+            {
+                richTextBox1.SelectionStart = m.Index;
+                richTextBox1.SelectionLength = m.Length;
+                richTextBox1.SelectionColor = Color.Brown;
+            }
+             foreach (Match keyWordMatch in Brackets.Matches(richTextBox1.Text)) 
+                {
+                    if (richTextBox1.Text.Contains(keyWordMatch.ToString()))
+                    {
+                        richTextBox1.Select(keyWordMatch.Index, keyWordMatch.Length);
+                        richTextBox1.SelectionColor = ColorTranslator.FromHtml("#27ae60");
+                        richTextBox1.SelectionStart = SelectionPostion;
+                        richTextBox1.SelectionLength = 0;
+                        richTextBox1.SelectionColor = Color.Black;
+                    }
+                }
+
+            // restoring the original colors, for further writing
+            richTextBox1.SelectionStart = originalIndex;
+            richTextBox1.SelectionLength = originalLength;
+            richTextBox1.SelectionColor = originalColor;
+           
+            // giving back the focus
+            richTextBox1.Focus();
+        
 		}
 	}
 }
+
