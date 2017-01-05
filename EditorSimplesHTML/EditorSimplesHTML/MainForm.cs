@@ -202,6 +202,7 @@ namespace EditorSimplesHTML
            
             // giving back the focus
             richTextBox1.Focus();
+	    richTextBox1.DeselectAll();
         
 		}
 	}
